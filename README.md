@@ -6,7 +6,7 @@ Add telegram token to **line 33** add trusted users to **line 38**, and add admi
 
 This was tested on python3.8
 
-The code is messy, use it on your own risk please.
+The code is messy, and telegram has been updated gazillion times, so please use it on your own risk.
 
 HD downloader does not work due to facebook xpath change.
 
