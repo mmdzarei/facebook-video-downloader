@@ -8,6 +8,11 @@ This was tested on python3.8
 
 The code is messy, and telegram has been updated gazillion times, so please use it on your own risk.
 
-HD downloader does not work due to facebook xpath change.
+HD downloader works right now but might stop working due to facebook xpath change. :D
+
+## To use it in pythonanywhere.com
+https://help.pythonanywhere.com/pages/selenium/
+
+But **change** "browser = webdriver.Chrome(options=chrome_options)" to "browser = webdriver.Chrome(chrome_options=chrome_options)"
 
 
