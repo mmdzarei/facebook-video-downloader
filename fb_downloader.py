@@ -1,5 +1,6 @@
-#change line 33,38,94
-#Add token to line 33 add trusted users to line 38, and add admin(bot owner's telegram user_id to line 94)
+#change line 39,44,100
+#Add token to line 39 add trusted users to line 44, and add admin(bot owner's telegram user_id to line 100)
+
 
 import wget
 from lxml import html
@@ -8,11 +9,16 @@ import os
 import telebot
 
 
+
 import mechanize
 
 
 
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import re
 
+#from webdriver_manager.chrome import ChromeDriverManager
 
 
 
@@ -114,7 +120,9 @@ def get_hd_link(message):
             chat_id=message.chat.id
             bot.send_message(message.chat.id,"Sending ...")
             link=get_fb_link(link0)
-            bot.send_message(message.chat.id,link)                  #direct link
+            #bot.send_message(message.chat.id,link)                  #direct link
+            lnlnln = '[This is the SD link]'+"("+str(link)+")"
+            bot.send_message(message.chat.id,lnlnln,parse_mode='MarkdownV2')
             bot.send_message(message.chat.id,'Downloading')
             video_name=str(chat_id)+'.mp4'
             dnld(link,video_name)
@@ -128,6 +136,7 @@ def get_hd_link(message):
         elif (message.text=="/hd"):
             chat_id=message.chat.id
             bot.send_message(message.chat.id,"Sending ...")
+            '''
             page=requests.get(link0)
             tree=html.fromstring(page.content)
             #text = tree.xpath('//*[@id="facebook"]/body/script[10]/text()')
@@ -138,18 +147,44 @@ def get_hd_link(message):
             start = 'hd_src:"'
             end = '",sd_src'
             hd_link=s[s.find(start)+len(start):s.rfind(end)]
-            bot.send_message(message.chat.id,hd_link)       #HD link
-            bot.send_message('@atron_fb_ch',hd_link)       #Send to channel
+            '''
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.add_argument("--no-sandbox")
+            chrome_options.add_argument("--headless")
+            chrome_options.add_argument("--disable-gpu")
+            browser = webdriver.Chrome(chrome_options=chrome_options)
+            browser.get(link0)
+            elem = browser.find_element_by_xpath('//*[@id="facebook"]/body/script[23]')
+            elem_t=elem.get_attribute('innerHTML')
+            resault = re.search('playable_url_quality_hd":"(.*?)",', elem_t)
+            resault2=str(resault.group(1))
+            resault2=resault2.replace("\\u0025","%")
+            resault2=resault2.replace("\\","")
+            print(resault2)
+            browser.close()
+
+
+
+
+
+
+
+
+            #bot.send_message(message.chat.id,resault2)       #HD link
+            lnlnln = '[This is the HD link]'+"("+str(resault2)+")"
+            bot.send_message(message.chat.id,lnlnln,parse_mode='MarkdownV2')
+            #bot.send_message('@atron_fb_ch',resault2)       #Send to channel
+            bot.send_message('@atron_fb_ch',lnlnln,parse_mode='MarkdownV2')
             #print("HD Link====",hd_link)
             #print("\n\n\n\n\n\n\n")
             video_name=str(chat_id)+'.mp4'
 
             ###########     Download and upload to telegram
 
-            #dnld(hd_link,video_name)
-            #video = open(video_name, 'rb')
-            #bot.send_video(chat_id, video)                 #upload video "file too big"
-            #os.remove(video_name)
+            dnld(hd_link,video_name)
+            video = open(video_name, 'rb')
+            bot.send_video(chat_id, video)                 #upload video "file too big"
+            os.remove(video_name)
 
             return
     except:
