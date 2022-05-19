@@ -173,8 +173,8 @@ def get_hd_link(message):
             #bot.send_message(message.chat.id,resault2)       #HD link
             lnlnln = '[This is the HD link]'+"("+str(resault2)+")"
             bot.send_message(message.chat.id,lnlnln,parse_mode='MarkdownV2')
-            #bot.send_message('@atron_fb_ch',resault2)       #Send to channel
-            bot.send_message('@atron_fb_ch',lnlnln,parse_mode='MarkdownV2')
+            #bot.send_message('@*******',resault2)       #Send to your channel too
+            #bot.send_message('@*******',lnlnln,parse_mode='MarkdownV2')
             #print("HD Link====",hd_link)
             #print("\n\n\n\n\n\n\n")
             video_name=str(chat_id)+'.mp4'
